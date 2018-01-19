@@ -1,0 +1,32 @@
+{
+  "name": "highlight",
+  "version": "1.0.0",
+  "description": "使选区高亮",
+  "main": "index.js",
+  "typings": "types/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mark",
+    "highlight",
+    "Range",
+    "Selection"
+  ],
+  "author": "ge-ge",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ge-Ge/highlight.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Ge-Ge/highlight/issues"
+  },
+  "homepage": "https://github.com/Ge-Ge/highlight#readme",
+  "devDependencies": {
+    "typescript": "^2.6.2"
+  },
+  "dependencies": {
+    "@ge-ge/utils": "^1.0.3"
+  }
+}
