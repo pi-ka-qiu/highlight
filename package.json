@@ -1,10 +1,11 @@
 {
-  "name": "highlight",
+  "name": "@ge-ge/highlight",
   "version": "1.0.0",
   "description": "使选区高亮",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "typings": "types/index.d.ts",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -24,9 +25,15 @@
   },
   "homepage": "https://github.com/Ge-Ge/highlight#readme",
   "devDependencies": {
+    "cz-conventional-changelog": "^2.1.0",
     "typescript": "^2.6.2"
   },
   "dependencies": {
     "@ge-ge/utils": "^1.0.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
