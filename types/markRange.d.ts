@@ -1,4 +1,4 @@
-declare class MarkRange {
+export default class MarkRange {
     /**
      * @description 在firefox上,用户可以有多个range，chrome 只有一个
      * @param {Selection} selection
@@ -6,7 +6,7 @@ declare class MarkRange {
      */
     static getRanges(selection: Selection): Array<Range>;
     /**
-     * @descriptionn
+     * @description 将Range分成三部分
      * @return Array
      * */
     static splitRange(range: Range): {
@@ -14,4 +14,3 @@ declare class MarkRange {
         range: Range;
     }[];
 }
-export { MarkRange };

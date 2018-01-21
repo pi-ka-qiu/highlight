@@ -3,15 +3,16 @@ import HighLight from './highlight'
 import {classList} from '@ge-ge/utils'
 
 export default class Mark {
-    static PREFIX = 'mark-highlight-'
+    static PREFIX = 'mark--highlight__'
     static START = Mark.PREFIX + 'start'
     static END = Mark.PREFIX + 'end'
     static ID = 0
     range: Range
-    backup: Node
+    highlight: HighLight
 
     constructor(range: Range) {
         this.range = range
+        this.highlight = new HighLight()
     }
 
     /**
@@ -27,9 +28,10 @@ export default class Mark {
             if (new_range.id === 'center') {
                 let start = docFragment.querySelector('.' + Mark.START + Mark.ID)
                 let end = docFragment.querySelector('.' + Mark.END + Mark.ID)
-                if (start && end) HighLight.highLight(docFragment, start, end)
+                console.log(this.range.startContainer)
+                if (start && end) this.highlight.highLight(docFragment, start, end)
             } else {
-                HighLight.highLight(docFragment)
+                this.highlight.highLight(docFragment)
             }
             new_range.range.insertNode(docFragment)
         })
@@ -43,7 +45,6 @@ export default class Mark {
         let container = this.range.commonAncestorContainer
         if (container.nodeType === Node.ELEMENT_NODE || container.nodeType === Node.DOCUMENT_NODE) {
             let mark_list = (<Element>container).getElementsByTagName('mark')
-            // console.log(mark_list)
             for (let i = mark_list.length - 1; i >= 0; i--) {
                 HighLight.reset(mark_list[i])
             }
@@ -55,16 +56,17 @@ export default class Mark {
      * @param {Element} ele
      * @param {string} id
      */
-    static markID(ele: Node, id: string) {
-        let r = function (node: Node) {
+    static markID(ele: Node, id: string): Node {
+        let r = function (node: Node): Node {
             if (HighLight.isText(node) && node.parentNode) {
                 r(node.parentNode)
             } else {
                 let class_list = new classList(<Element>node)
                 class_list.addClass(id)
             }
+            return node
         }
-        r(ele)
+        return r(ele)
     }
 
 }

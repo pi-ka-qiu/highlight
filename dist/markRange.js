@@ -17,7 +17,7 @@ var MarkRange = /** @class */ (function () {
         return range;
     };
     /**
-     * @descriptionn
+     * @description 将Range分成三部分
      * @return Array
      * */
     MarkRange.splitRange = function (range) {
@@ -58,4 +58,4 @@ var MarkRange = /** @class */ (function () {
     };
     return MarkRange;
 }());
-exports.MarkRange = MarkRange;
+exports.default = MarkRange;
