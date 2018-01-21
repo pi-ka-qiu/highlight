@@ -9,7 +9,8 @@ class Mark {
     backup: Node
     constructor(range: Range) {
         this.range = range
-        this.backup = range.commonAncestorContainer.cloneNode()
+        this.backup = range.commonAncestorContainer.cloneNode(true)
+        console.log(this.backup)
     }
 
     /**
@@ -33,6 +34,16 @@ class Mark {
             new_range.range.insertNode(docFragment)
         })
         Mark.ID++
+    }
+
+    /** TODO: 必须解决事件失效的问题
+     * @description 恢复到没有高亮之前的样子
+     */
+    public reset() {
+      if (this.range.commonAncestorContainer.parentNode) {
+        let parent = this.range.commonAncestorContainer.parentNode
+        parent.replaceChild(this.backup,this.range.commonAncestorContainer)   // 这种写法会使dom元素上通过addEventListener添加的事件失效
+      }
     }
 
     /**
@@ -118,4 +129,4 @@ class Mark {
 
 }
 
-export { Mark }
+export default Mark 
