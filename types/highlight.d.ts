@@ -18,7 +18,7 @@ export default class Highlight {
      * @param {Node} start 开始高亮的元素
      * @param {Node} end   结束高亮的元素
      */
-    highLight(ele: Node, start?: Node, end?: Node): void;
+    highLight(ele: Node, start?: Node, end?: Node): Array<HTMLElement>;
     /**
      * @description 是否为文本节点
      * @param {Node} node

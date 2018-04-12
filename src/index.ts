@@ -1,6 +1,6 @@
 import MarkRange from './markRange'
 import HighLight from './highlight'
-import {classList} from '@ge-ge/utils'
+import {ClassList} from '@ge-ge/utils'
 
 export default class Mark {
     static PREFIX = 'mark--highlight__'
@@ -9,10 +9,12 @@ export default class Mark {
     static ID = 0
     range: Range
     highlight: HighLight
+    marks: Array<HTMLElement>
 
     constructor(range: Range) {
         this.range = range
         this.highlight = new HighLight()
+        this.marks = []
     }
 
     /**
@@ -29,9 +31,13 @@ export default class Mark {
                 let start = docFragment.querySelector('.' + Mark.START + Mark.ID)
                 let end = docFragment.querySelector('.' + Mark.END + Mark.ID)
                 console.log(this.range.startContainer)
-                if (start && end) this.highlight.highLight(docFragment, start, end)
+                if (start && end) {
+                    let markNode = this.highlight.highLight(docFragment, start, end)
+                    this.marks = this.marks.concat(markNode)
+                }
             } else {
-                this.highlight.highLight(docFragment)
+                let markNode = this.highlight.highLight(docFragment)
+                this.marks = this.marks.concat(markNode)
             }
             new_range.range.insertNode(docFragment)
         })
@@ -61,7 +67,7 @@ export default class Mark {
             if (HighLight.isText(node) && node.parentNode) {
                 r(node.parentNode)
             } else {
-                let class_list = new classList(<Element>node)
+                let class_list = new ClassList(<Element>node)
                 class_list.addClass(id)
             }
             return node

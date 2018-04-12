@@ -6,6 +6,7 @@ export default class Mark {
     static ID: number;
     range: Range;
     highlight: HighLight;
+    marks: Array<HTMLElement>;
     constructor(range: Range);
     /**
      * @description 高亮选中的区间

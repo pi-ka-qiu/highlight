@@ -1,5 +1,4 @@
-import {classList} from '@ge-ge/utils'
-import ClassList from "@ge-ge/utils/types/classList";
+import {ClassList} from '@ge-ge/utils'
 
 export default class Highlight {
     static CLASS_NAME = 'highlight'
@@ -31,9 +30,10 @@ export default class Highlight {
      * @param {Node} start 开始高亮的元素
      * @param {Node} end   结束高亮的元素
      */
-    highLight(ele: Node, start?: Node, end?: Node) { //ele 为text节点或者document
+    highLight(ele: Node, start?: Node, end?: Node): Array<HTMLElement> { //ele 为text节点或者document
         let node = ele
         let flag = start ? false : true
+        let markNode: Array<HTMLElement> = []
         let recursion = (node: Node) => {
             if (node.nodeName === 'MARK') return
             if (end && node === end) {
@@ -47,7 +47,8 @@ export default class Highlight {
             } else {
                 if (flag && node.nodeType === Node.TEXT_NODE && node.textContent) {
                     if (node.textContent.trim().length === 0) return
-                    this.highLightText(<Text>node)
+                    let mark = this.highLightText(<Text>node)
+                    markNode.push(mark)
                 }
             }
             if (start && node === start) {
@@ -55,6 +56,7 @@ export default class Highlight {
             }
         }
         recursion(node)
+        return markNode
     }
 
     /**
@@ -75,7 +77,7 @@ export default class Highlight {
      * @param {number} start  开始的位置，默认从0开始
      * @param {number} count  高亮文字的数量，默认为 从开始位置之后的全部文字
      */
-    private highLightText(node: Text, start = 0, count?: number) {
+    private highLightText(node: Text, start = 0, count?: number): any {
         if (node.nodeType === Node.TEXT_NODE && node.textContent) {
             if (node.textContent.trim().length === 0) return
             count = count || node.textContent.trim().length - start
@@ -87,6 +89,8 @@ export default class Highlight {
             range.deleteContents()                              // 删除选中的文字，之后插入高亮元素
             if (mark) range.insertNode(mark)
             range.detach()
+            // console.log(mark)
+            return mark
         }
     }
 
