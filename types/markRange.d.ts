@@ -5,7 +5,7 @@ export default class MarkRange {
      * @returns {Array<Range>}
      */
     static getRanges(selection: Selection): Array<Range>;
-    /**
+    /**TODO 中间部分range应该不包含开头结尾
      * @description 将Range分成三部分
      * @return Array
      * */

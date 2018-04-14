@@ -1,6 +1,10 @@
 export default class Highlight {
     static CLASS_NAME: string;
     private THEME;
+    /**
+     *
+     * @param {{className?: string; theme?: string}} options
+     */
     constructor(options?: {
         className?: string;
         theme?: string;

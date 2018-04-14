@@ -13,7 +13,7 @@ export default class MarkRange {
         return range
     }
 
-    /**
+    /**TODO 中间部分range应该不包含开头结尾
      * @description 将Range分成三部分
      * @return Array
      * */
@@ -34,8 +34,13 @@ export default class MarkRange {
             end.setStart(range.endContainer, 0)
             end.setEnd(range.endContainer, range.endOffset)
 
-            center.selectNodeContents(range.commonAncestorContainer)
+            center.setStartAfter(range.startContainer)
+            center.setEndBefore(range.endContainer)
         }
+        if (!center.collapsed) ranges.push({
+            id: 'center',
+            range: center
+        })
         if (!start.collapsed) ranges.push({
             id: 'start',
             range: start
@@ -43,10 +48,6 @@ export default class MarkRange {
         if (!end.collapsed) ranges.push({
             id: 'end',
             range: end
-        })
-        if (!center.collapsed) ranges.push({
-            id: 'center',
-            range: center
         })
         return ranges
     }

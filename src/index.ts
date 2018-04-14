@@ -7,40 +7,53 @@ export default class Mark {
     static START = Mark.PREFIX + 'start'
     static END = Mark.PREFIX + 'end'
     static ID = 0
-    range: Range
+    range: Range                            // range被高亮的区域，在对range之内的node进行处理之后，range对象会改变。
     highlight: HighLight
-    marks: Array<HTMLElement>
-
+    marks: Array<HTMLElement>               // 高亮后，mark元素集合
+    start: Node | null
+    end: Node | null
+    /**
+     * @param {Range} range
+     */
     constructor(range: Range) {
         this.range = range
         this.highlight = new HighLight()
         this.marks = []
+        this.start = null
+        this.end = null
+        this.mark()
     }
 
     /**
      * @description 高亮选中的区间
      */
-    public mark() {
+    private mark() {
 
-        Mark.markID(this.range.startContainer, Mark.START + Mark.ID)  // 标记开始的节点
-        Mark.markID(this.range.endContainer, Mark.END + Mark.ID)      //    结束的节点
-        let new_range_list = MarkRange.splitRange(this.range)
+        let new_range_list = MarkRange.splitRange(this.range)            // 分割成3个range
         new_range_list.forEach((new_range) => {
             let docFragment = new_range.range.extractContents()          // 将选区内的元素移出到documentFragment
+            // 对docFragment进行处理
             if (new_range.id === 'center') {
-                let start = docFragment.querySelector('.' + Mark.START + Mark.ID)
-                let end = docFragment.querySelector('.' + Mark.END + Mark.ID)
-                console.log(this.range.startContainer)
-                if (start && end) {
-                    let markNode = this.highlight.highLight(docFragment, start, end)
+                    let markNode = this.highlight.highLight(docFragment)
                     this.marks = this.marks.concat(markNode)
-                }
             } else {
                 let markNode = this.highlight.highLight(docFragment)
                 this.marks = this.marks.concat(markNode)
+                if (new_range.id === 'start') {
+                    this.start = markNode[0]
+                }else if (new_range.id === 'end') {
+                    this.end = markNode[0]
+                }
             }
+            // 处理完成后插入到对应的range,range被修改没有参考意义
             new_range.range.insertNode(docFragment)
         })
+        // 设置高亮后的range
+        if (this.start && this.end) {
+            this.range = document.createRange()
+            this.range.setStartBefore(this.start)
+            this.range.setEndAfter(this.end)
+        }
         Mark.ID++
     }
 
@@ -48,19 +61,20 @@ export default class Mark {
      * @description 恢复到没有高亮之前的样子
      */
     public reset() {
-        let container = this.range.commonAncestorContainer
-        if (container.nodeType === Node.ELEMENT_NODE || container.nodeType === Node.DOCUMENT_NODE) {
-            let mark_list = (<Element>container).getElementsByTagName('mark')
-            for (let i = mark_list.length - 1; i >= 0; i--) {
-                HighLight.reset(mark_list[i])
-            }
+        // TODO 改为根据marks恢复
+        for (let mark of this.marks) {
+            HighLight.reset(mark)
         }
+        this.start = this.end =null
+        this.marks = []
+        this.range.detach()
     }
 
     /**
      * @description 为一个节点添加class名,并且返回被添加的node
-     * @param {Element} ele
+     * @param {Node} ele
      * @param {string} id
+     * @returns {Node}
      */
     static markID(ele: Node, id: string): Node {
         let r = function (node: Node): Node {
