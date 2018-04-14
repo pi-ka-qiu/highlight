@@ -16,20 +16,20 @@ export default class Mark {
      * @param {Range} range
      */
     constructor(range: Range) {
-        this.range = range
+        this.range = document.createRange()
         this.highlight = new HighLight()
         this.marks = []
         this.start = null
         this.end = null
-        this.mark()
+        this.mark(range)
     }
 
     /**
      * @description 高亮选中的区间
      */
-    private mark() {
+    private mark(range:Range) {
 
-        let new_range_list = MarkRange.splitRange(this.range)            // 分割成3个range
+        let new_range_list = MarkRange.splitRange(range)            // 分割成3个range
         new_range_list.forEach((new_range) => {
             let docFragment = new_range.range.extractContents()          // 将选区内的元素移出到documentFragment
             // 对docFragment进行处理
@@ -50,7 +50,6 @@ export default class Mark {
         })
         // 设置高亮后的range
         if (this.start && this.end) {
-            this.range = document.createRange()
             this.range.setStartBefore(this.start)
             this.range.setEndAfter(this.end)
         }

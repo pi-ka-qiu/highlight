@@ -16,7 +16,7 @@ export default class Mark {
     /**
      * @description 高亮选中的区间
      */
-    private mark();
+    private mark(range);
     /**
      * @description 恢复到没有高亮之前的样子
      */
