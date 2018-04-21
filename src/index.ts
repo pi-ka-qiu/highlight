@@ -28,13 +28,12 @@ export default class Mark {
      * @description 高亮选中的区间
      */
     private mark(range:Range) {
-
         let new_range_list = MarkRange.splitRange(range)            // 分割成3个range
         new_range_list.forEach((new_range) => {
             let docFragment = new_range.range.extractContents()          // 将选区内的元素移出到documentFragment
             // 对docFragment进行处理
-            if (new_range.id === 'center') {
-                    let markNode = this.highlight.highLight(docFragment)
+            if (new_range.id === 'center' && this.start && this.end) {
+                    let markNode = this.highlight.highLight(docFragment, this.start, this.end)
                     this.marks = this.marks.concat(markNode)
             } else {
                 let markNode = this.highlight.highLight(docFragment)

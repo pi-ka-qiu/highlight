@@ -36,10 +36,9 @@ export default class Highlight {
      */
     highLight(ele: Node, start?: Node, end?: Node): Array<HTMLElement> { //ele 为text节点或者document
         let node = ele
-        let flag = start ? false : true
+        let flag = start && end ? false : true // 是否一开始就进行高亮处理
         let markNode: Array<HTMLElement> = []
         let recursion = (node: Node) => {
-            if (node.nodeName === 'MARK') return
             if (end && node === end) {
                 flag = false
             }
@@ -49,6 +48,7 @@ export default class Highlight {
                     recursion(node.childNodes[i]);
                 }
             } else {
+                if (node.parentNode.nodeName === 'MARK') return  // 不对mark元素内的文字再次进行高亮
                 if (flag && node.nodeType === Node.TEXT_NODE && node.textContent) {
                     if (node.textContent.trim().length === 0) return
                     let mark = this.highLightText(<Text>node)

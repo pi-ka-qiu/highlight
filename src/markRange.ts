@@ -13,7 +13,7 @@ export default class MarkRange {
         return range
     }
 
-    /**TODO 中间部分range应该不包含开头结尾
+    /**TODO 中间部分range应该不包含开头结尾，但这样会导致documentFragment插入时dom出现大量重复
      * @description 将Range分成三部分
      * @return Array
      * */
@@ -34,20 +34,21 @@ export default class MarkRange {
             end.setStart(range.endContainer, 0)
             end.setEnd(range.endContainer, range.endOffset)
 
-            center.setStartAfter(range.startContainer)
-            center.setEndBefore(range.endContainer)
+            center.selectNodeContents(range.commonAncestorContainer)
+            // center.setStartAfter(range.startContainer)
+            // center.setEndBefore(range.endContainer)
         }
-        if (!center.collapsed) ranges.push({
-            id: 'center',
-            range: center
-        })
-        if (!start.collapsed) ranges.push({
+        if (!start.collapsed) ranges.unshift({
             id: 'start',
             range: start
         })
-        if (!end.collapsed) ranges.push({
+        if (!end.collapsed) ranges.unshift({
             id: 'end',
             range: end
+        })
+        if (!center.collapsed) ranges.push({
+            id: 'center',
+            range: center
         })
         return ranges
     }

@@ -5,7 +5,7 @@ export default class MarkRange {
      * @returns {Array<Range>}
      */
     static getRanges(selection: Selection): Array<Range>;
-    /**TODO 中间部分range应该不包含开头结尾
+    /**TODO 中间部分range应该不包含开头结尾，但这样会导致documentFragment插入时dom出现大量重复
      * @description 将Range分成三部分
      * @return Array
      * */
