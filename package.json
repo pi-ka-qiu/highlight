@@ -1,6 +1,6 @@
 {
   "name": "@ge-ge/highlight",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "使选区高亮",
   "main": "./dist/index.js",
   "typings": "types/index.d.ts",

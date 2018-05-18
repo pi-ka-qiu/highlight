@@ -48,7 +48,7 @@ export default class Highlight {
                     recursion(node.childNodes[i]);
                 }
             } else {
-                if (node.parentNode.nodeName === 'MARK') return  // 不对mark元素内的文字再次进行高亮
+                if (node.parentNode && node.parentNode.nodeName === 'MARK') return  // 不对mark元素内的文字再次进行高亮
                 if (flag && node.nodeType === Node.TEXT_NODE && node.textContent) {
                     if (node.textContent.trim().length === 0) return
                     let mark = this.highLightText(<Text>node)
