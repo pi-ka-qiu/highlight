@@ -1,7 +1,7 @@
 import MarkRange from './markRange'
 import HighLight from './highlight'
 import {ClassList} from '@ge-ge/utils'
-
+import MarkElement from './markElement'
 export default class Mark {
     static PREFIX = 'mark--highlight__'
     static START = Mark.PREFIX + 'start'
@@ -9,7 +9,7 @@ export default class Mark {
     static ID = 0
     range: Range                            // range被高亮的区域，在对range之内的node进行处理之后，range对象会改变。
     highlight: HighLight
-    marks: Array<HTMLElement>               // 高亮后，mark元素集合
+    marks: Array<MarkElement>               // 高亮后，mark元素集合
     start: Node | null
     end: Node | null
     /**
@@ -39,9 +39,9 @@ export default class Mark {
                 let markNode = this.highlight.highLight(docFragment)
                 this.marks = this.marks.concat(markNode)
                 if (new_range.id === 'start') {
-                    this.start = markNode[0]
+                    this.start = markNode[0].el
                 }else if (new_range.id === 'end') {
-                    this.end = markNode[0]
+                    this.end = markNode[0].el
                 }
             }
             // 处理完成后插入到对应的range,range被修改没有参考意义
@@ -61,7 +61,7 @@ export default class Mark {
     public reset() {
         // TODO 改为根据marks恢复
         for (let mark of this.marks) {
-            HighLight.reset(mark)
+            HighLight.reset(mark.el)
         }
         this.start = this.end =null
         this.marks = []

@@ -1,3 +1,4 @@
+import MarkElement from './markElement';
 export default class Highlight {
     static CLASS_NAME: string;
     private THEME;
@@ -22,7 +23,7 @@ export default class Highlight {
      * @param {Node} start 开始高亮的元素
      * @param {Node} end   结束高亮的元素
      */
-    highLight(ele: Node, start?: Node, end?: Node): Array<HTMLElement>;
+    highLight(ele: Node, start?: Node, end?: Node): Array<MarkElement>;
     /**
      * @description 是否为文本节点
      * @param {Node} node

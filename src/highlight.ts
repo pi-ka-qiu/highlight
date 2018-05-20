@@ -1,5 +1,5 @@
 import {ClassList} from '@ge-ge/utils'
-
+import MarkElement from './markElement'
 export default class Highlight {
     static CLASS_NAME = 'highlight'
     private THEME: string = 'highlight-theme'
@@ -34,10 +34,10 @@ export default class Highlight {
      * @param {Node} start 开始高亮的元素
      * @param {Node} end   结束高亮的元素
      */
-    highLight(ele: Node, start?: Node, end?: Node): Array<HTMLElement> { //ele 为text节点或者document
+    highLight(ele: Node, start?: Node, end?: Node): Array<MarkElement> { //ele 为text节点或者document
         let node = ele
         let flag = start && end ? false : true // 是否一开始就进行高亮处理
-        let markNode: Array<HTMLElement> = []
+        let markNode: Array<MarkElement> = []
         let recursion = (node: Node) => {
             if (end && node === end) {
                 flag = false
@@ -48,11 +48,17 @@ export default class Highlight {
                     recursion(node.childNodes[i]);
                 }
             } else {
-                if (node.parentNode && node.parentNode.nodeName === 'MARK') return  // 不对mark元素内的文字再次进行高亮
+                // 不对mark元素内的文字再次进行高亮
+                if (flag && node.parentNode && node.parentNode.nodeName === 'MARK') {
+                    // let obj: MarkElement = {mix: true, el: node.parentNode}
+                    // markNode.push(obj)
+                    return
+                }
                 if (flag && node.nodeType === Node.TEXT_NODE && node.textContent) {
                     if (node.textContent.trim().length === 0) return
                     let mark = this.highLightText(<Text>node)
-                    markNode.push(mark)
+                    let obj: MarkElement = {mix: false, el: mark}
+                    markNode.push(obj)
                 }
             }
             if (start && node === start) {

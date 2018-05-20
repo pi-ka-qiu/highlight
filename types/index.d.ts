@@ -1,4 +1,5 @@
 import HighLight from './highlight';
+import MarkElement from './markElement';
 export default class Mark {
     static PREFIX: string;
     static START: string;
@@ -6,7 +7,7 @@ export default class Mark {
     static ID: number;
     range: Range;
     highlight: HighLight;
-    marks: Array<HTMLElement>;
+    marks: Array<MarkElement>;
     start: Node | null;
     end: Node | null;
     /**
