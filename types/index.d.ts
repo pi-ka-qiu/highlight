@@ -13,7 +13,10 @@ export default class Mark {
     /**
      * @param {Range} range
      */
-    constructor(range: Range);
+    constructor(options?: {
+        className?: string;
+        theme?: string;
+    });
     /**
      * @description 高亮选中的区间
      */

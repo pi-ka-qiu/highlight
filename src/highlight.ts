@@ -42,16 +42,23 @@ export default class Highlight {
             if (end && node === end) {
                 flag = false
             }
+            if (flag && node.nodeName === 'MARK') {
+                let children = (<Element>node).children
+                // 如果mark元素有子元素并且为mark元素
+                if (!(children.length && children[0].nodeName === 'MARK')) {
+                  let obj: MarkElement = {mix: true, el: <HTMLElement>node}
+                  markNode.push(obj)
+                }
+            }
             if (node.hasChildNodes()) {
                 // NodeList is not an Array,
-                for (let i = 0; i < node.childNodes.length; i++) {
+                let length = node.childNodes.length;
+                for (let i = 0; i < length; i++) {
                     recursion(node.childNodes[i]);
                 }
             } else {
                 // 不对mark元素内的文字再次进行高亮
                 if (flag && node.parentNode && node.parentNode.nodeName === 'MARK') {
-                    // let obj: MarkElement = {mix: true, el: node.parentNode}
-                    // markNode.push(obj)
                     return
                 }
                 if (flag && node.nodeType === Node.TEXT_NODE && node.textContent) {

@@ -15,13 +15,12 @@ export default class Mark {
     /**
      * @param {Range} range
      */
-    constructor(range: Range) {
+    constructor(options?: { className?: string, theme?: string }) {
         this.range = document.createRange()
-        this.highlight = new HighLight()
+        this.highlight = new HighLight(options)
         this.marks = []
         this.start = null
         this.end = null
-        this.mark(range)
     }
 
     /**
