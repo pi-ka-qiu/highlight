@@ -33,14 +33,17 @@ export default class Mark {
             // 对docFragment进行处理
             if (new_range.id === 'center' && this.start && this.end) {
                     let markNode = this.highlight.highLight(docFragment, this.start, this.end)
-                    this.marks = this.marks.concat(markNode)
+                    // this.marks = this.marks.concat(markNode)
+                    this.marks.splice(1, 0, ...markNode)
             } else {
                 let markNode = this.highlight.highLight(docFragment)
-                this.marks = this.marks.concat(markNode)
+                // this.marks = this.marks.concat(markNode)
                 if (new_range.id === 'start') {
                     this.start = markNode[0].el
+                    this.marks.unshift(...markNode)
                 }else if (new_range.id === 'end') {
                     this.end = markNode[0].el
+                    this.marks.push(...markNode)
                 }
             }
             // 处理完成后插入到对应的range,range被修改没有参考意义

@@ -37,18 +37,15 @@ export default class Highlight {
     highLight(ele: Node, start?: Node, end?: Node): Array<MarkElement> { //ele 为text节点或者document
         let node = ele
         let flag = start && end ? false : true // 是否一开始就进行高亮处理
-        let markNode: Array<MarkElement> = []
+        let markNode: Array<MarkElement> = []  // 高亮后的元素
+        let need_mark: Array<Node> = []        // 待高亮处理的元素，包含mark元素
         let recursion = (node: Node) => {
             if (end && node === end) {
                 flag = false
             }
             if (flag && node.nodeName === 'MARK') {
-                let children = (<Element>node).children
-                // 如果mark元素有子元素并且为mark元素
-                if (!(children.length && children[0].nodeName === 'MARK')) {
-                  let obj: MarkElement = {mix: true, el: <HTMLElement>node}
-                  markNode.push(obj)
-                }
+                need_mark.push(node)
+                return
             }
             if (node.hasChildNodes()) {
                 // NodeList is not an Array,
@@ -63,9 +60,7 @@ export default class Highlight {
                 }
                 if (flag && node.nodeType === Node.TEXT_NODE && node.textContent) {
                     if (node.textContent.trim().length === 0) return
-                    let mark = this.highLightText(<Text>node)
-                    let obj: MarkElement = {mix: false, el: mark}
-                    markNode.push(obj)
+                    need_mark.push(node)
                 }
             }
             if (start && node === start) {
@@ -73,6 +68,17 @@ export default class Highlight {
             }
         }
         recursion(node)
+        for (let node of need_mark) {
+          if ( node.nodeType === Node.TEXT_NODE && node.textContent) {
+            let mark = this.highLightText(<Text>node)
+            let obj: MarkElement = {mix: false, el: mark}
+            markNode.push(obj)
+          } else if (node.nodeName === 'MARK') {
+            let obj: MarkElement = {mix: true, el: <HTMLElement>node}
+            markNode.push(obj)   
+          }
+        }
+        need_mark = []
         return markNode
     }
 
