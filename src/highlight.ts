@@ -44,8 +44,8 @@ export default class Highlight {
                 flag = false
             }
             if (flag && node.nodeName === 'MARK') {
-                need_mark.push(node)
-                return
+                // 对只含有Text的mark元素不处理
+                if (!((<Element>node).children.length)) {need_mark.push(node); return}
             }
             if (node.hasChildNodes()) {
                 // NodeList is not an Array,
@@ -69,7 +69,9 @@ export default class Highlight {
         }
         recursion(node)
         for (let node of need_mark) {
-          if ( node.nodeType === Node.TEXT_NODE && node.textContent) {
+          if (node.nodeType === Node.TEXT_NODE && node.textContent) {
+              // 不对mark元素内的文字再次进行高亮
+            if (node.parentNode && node.parentNode.nodeName === 'MARK') continue
             let mark = this.highLightText(<Text>node)
             let obj: MarkElement = {mix: false, el: mark}
             markNode.push(obj)
