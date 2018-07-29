@@ -105,7 +105,7 @@ export default class Highlight {
     private highLightText(node: Text, start = 0, count?: number): any {
         if (node.nodeType === Node.TEXT_NODE && node.textContent) {
             if (node.textContent.trim().length === 0) return
-            count = count || node.textContent.trim().length - start
+            count = count || node.textContent.length - start
             let textContent = node.textContent.substr(start, count)
             let mark = this.getMarkElement(textContent)  // 生成highlight的元素
             let range = document.createRange()
