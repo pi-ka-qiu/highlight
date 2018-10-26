@@ -20,11 +20,11 @@ export default class Mark {
     /**
      * @description 高亮选中的区间
      */
-    private mark(range);
+    private mark;
     /**
      * @description 恢复到没有高亮之前的样子
      */
-    reset(): void;
+    reset(mix?: boolean): void;
     /**
      * @description 为一个节点添加class名,并且返回被添加的node
      * @param {Node} ele

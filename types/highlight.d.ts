@@ -36,12 +36,12 @@ export default class Highlight {
      * @param {number} start  开始的位置，默认从0开始
      * @param {number} count  高亮文字的数量，默认为 从开始位置之后的全部文字
      */
-    private highLightText(node, start?, count?);
+    private highLightText;
     /**
      *
      * @description 返回高亮的mark Element
      * @param {string} text
      * @returns {HTMLElement}
      */
-    private getMarkElement(text);
+    private getMarkElement;
 }

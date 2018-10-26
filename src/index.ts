@@ -60,9 +60,10 @@ export default class Mark {
     /**
      * @description 恢复到没有高亮之前的样子
      */
-    public reset() {
+    public reset(mix:boolean = false) {
         // TODO 改为根据marks恢复
         for (let mark of this.marks) {
+            if (mix && mark.mix) continue
             HighLight.reset(mark.el)
         }
         this.start = this.end =null
