@@ -22,7 +22,7 @@ export default class Highlight {
      */
     static reset(ele: HTMLElement) {
         if (ele.nodeName === 'MARK' && ele.parentNode) {
-            ele.parentNode.textContent = ele.parentNode.textContent
+            ele.outerHTML = ele.textContent || ''
         }
     }
 
