@@ -6,7 +6,7 @@
   "typings": "types/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "webpack --config webpack.config.js"
   },
   "keywords": [
     "mark",
@@ -26,7 +26,10 @@
   "homepage": "https://github.com/Ge-Ge/highlight#readme",
   "devDependencies": {
     "cz-conventional-changelog": "^2.1.0",
-    "typescript": "^2.6.2"
+    "ts-loader": "^5.0.0",
+    "typescript": "^2.6.2",
+    "webpack": "^4.17.2",
+    "webpack-cli": "^3.1.0"
   },
   "dependencies": {
     "@ge-ge/utils": "^1.0.6"
